@@ -143,10 +143,92 @@ function kirimLaporan(){
   if(!desc){ showToast('⚠️ Mohon isi deskripsi laporan'); return; }
   if(!kat){ showToast('⚠️ Mohon pilih kategori'); return; }
 
-  addLaporanNotif(kat.textContent.trim(), desc);
+  const kategori = kat.textContent.trim();
+  const lokasi = document.getElementById('locName') ? document.getElementById('locName').textContent.trim() : '';
+
+  addLaporanNotif(kategori, desc);
+  addRiwayatCard(kategori, desc, lokasi);
+  bumpRiwayatStats();
   showToast('✅ Laporan berhasil dikirim!');
 
   setTimeout(()=>{ showPage('notifikasi'); }, 700);
+}
+
+// Build a short title from the description (first sentence / first ~50 chars)
+function buatJudulLaporan(kategori, desc){
+  let judul = desc.split(/[.\n]/)[0].trim();
+  if(judul.length > 55) judul = judul.slice(0,55).trim()+'…';
+  return judul || kategori;
+}
+
+// Insert a new "Diterima" card at the top of the Riwayat Laporan – Aktif tab
+function addRiwayatCard(kategori, desc, lokasi){
+  const list = document.getElementById('riwayatAktif');
+  const card = document.createElement('div');
+  card.className = 'riwayat-card accent-blue new-riwayat';
+
+  const judul = buatJudulLaporan(kategori, desc);
+  const ringkas = desc.length > 110 ? desc.slice(0,110).trim()+'…' : desc;
+  const catLabel = lokasi ? `${kategori} • ${lokasi}` : kategori;
+
+  card.innerHTML = `
+    <div class="riwayat-card-top">
+      <span class="riwayat-status st-diterima">Diterima</span>
+      <span class="riwayat-date">Baru saja</span>
+    </div>
+    <div class="riwayat-card-title">${judul}</div>
+    <div class="riwayat-card-desc">${ringkas}</div>
+    <div class="riwayat-card-cat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+      ${catLabel}
+    </div>
+    <div class="riwayat-steps">
+      <div class="riwayat-step">
+        <div class="riwayat-step-line"></div>
+        <div class="riwayat-step-dot current blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9 6 9-6M5 6h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg>
+        </div>
+        <div class="riwayat-step-label current">Diterima</div>
+      </div>
+      <div class="riwayat-step">
+        <div class="riwayat-step-line"></div>
+        <div class="riwayat-step-dot"></div>
+        <div class="riwayat-step-label">Diproses</div>
+      </div>
+      <div class="riwayat-step">
+        <div class="riwayat-step-line"></div>
+        <div class="riwayat-step-dot"></div>
+        <div class="riwayat-step-label">Selesai</div>
+      </div>
+    </div>
+  `;
+  card.onclick = ()=>showToast('Membuka detail laporan...');
+  list.insertBefore(card, list.firstChild);
+}
+
+// Update all the counters that reflect the new active report
+function bumpRiwayatStats(){
+  // Riwayat page – "Laporan Aktif" stat
+  const riwayatAktif = document.getElementById('riwayatStatAktif');
+  if(riwayatAktif) riwayatAktif.textContent = (parseInt(riwayatAktif.textContent)||0) + 1;
+
+  // Beranda – "Status Laporan Anda" → Baru
+  const statBaru = document.getElementById('statBaru');
+  if(statBaru) statBaru.textContent = (parseInt(statBaru.textContent)||0) + 1;
+
+  // Sidebar "Laporan" total count badge
+  document.querySelectorAll('.nav-link .count').forEach(c=>{
+    if(c.closest('.nav-link').textContent.includes('Laporan')){
+      c.textContent = (parseInt(c.textContent)||0) + 1;
+    }
+  });
+
+  // Profil page – Total Laporan
+  const profilTotal = document.querySelector('.profil-stat-value.navy');
+  if(profilTotal){
+    const num = parseInt(profilTotal.textContent) || 0;
+    profilTotal.innerHTML = (num+1) + ' <span>Laporan</span>';
+  }
 }
 
 // Insert a new "laporan terkirim" notification at top of Terbaru list
@@ -215,12 +297,13 @@ function showPage(name){
   window.scrollTo(0,0);
 
   // Sync sidebar (Beranda) nav-link highlight with the active page
+  const isLaporanGroup = (name === 'riwayat' || name === 'laporan');
   document.querySelectorAll('.nav-link').forEach(el=>{
     el.classList.remove('active');
     const label = el.textContent.trim().toLowerCase();
     if(
       (name === 'beranda' && label.startsWith('beranda')) ||
-      (name === 'laporan' && label.startsWith('laporan')) ||
+      (isLaporanGroup && label.startsWith('laporan')) ||
       (name === 'notifikasi' && label.startsWith('notifikasi')) ||
       (name === 'profil' && label.startsWith('profil'))
     ){
@@ -232,6 +315,69 @@ function showPage(name){
   document.querySelectorAll('.snav-item').forEach(el=>{
     el.classList.remove('active');
     const title = (el.getAttribute('title')||'').toLowerCase();
-    if(title === name) el.classList.add('active');
+    if(title === name || (isLaporanGroup && title === 'laporan')) el.classList.add('active');
+  });
+
+  syncBottomNav(name);
+}
+
+// ── Riwayat Laporan tab switcher ──
+function riwayatTab(name, el){
+  document.querySelectorAll('.riwayat-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.riwayat-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('riwayat'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');
+}
+
+
+// ── Mobile bottom navigation bar ──
+// Injects a fixed bottom nav (Beranda / Laporan / Notifikasi / Profil)
+// into every page's .shell. Hidden on desktop via CSS (max-width:768px).
+function bottomNavHTML(){
+  return `
+    <nav class="bottom-nav">
+      <button class="bnav-item" data-page="beranda" onclick="showPage('beranda')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Beranda
+      </button>
+      <button class="bnav-item" data-page="riwayat" onclick="showPage('riwayat')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Laporan
+      </button>
+      <button class="bnav-item" data-page="notifikasi" onclick="showPage('notifikasi')" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Notifikasi
+        <span class="bnav-dot"></span>
+      </button>
+      <button class="bnav-item" data-page="profil" onclick="showPage('profil')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profil
+      </button>
+    </nav>
+  `;
+}
+
+function injectBottomNav(){
+  document.querySelectorAll('.shell').forEach(shell=>{
+    if(!shell.querySelector('.bottom-nav')){
+      shell.insertAdjacentHTML('beforeend', bottomNavHTML());
+    }
   });
 }
+
+function syncBottomNav(name){
+  const isLaporanGroup = (name === 'riwayat' || name === 'laporan');
+  document.querySelectorAll('.bnav-item').forEach(btn=>{
+    const page = btn.getAttribute('data-page');
+    btn.classList.toggle('active',
+      page === name || (isLaporanGroup && page === 'riwayat')
+    );
+  });
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  injectBottomNav();
+  // Highlight the bottom nav item for the initially active page
+  const activePage = document.querySelector('.page.active');
+  if(activePage) syncBottomNav(activePage.id.replace('page-',''));
+});

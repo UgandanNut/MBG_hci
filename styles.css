@@ -937,3 +937,251 @@ html,body{
   line-height:1.7;padding-bottom:28px;
 }
 
+
+/* ════════════════════════
+   RIWAYAT LAPORAN PAGE
+   ════════════════════════ */
+.riwayat-wrap{
+  width:100%;max-width:640px;
+  padding:0 24px;
+}
+.riwayat-title{
+  font-size:1.4rem;font-weight:900;color:var(--gray-800);
+  letter-spacing:-.4px;margin:4px 0 18px;
+}
+
+/* Pill tab switcher */
+.riwayat-tabs{
+  display:flex;gap:4px;background:var(--gray-100);
+  border-radius:999px;padding:4px;margin-bottom:20px;
+}
+.riwayat-tab{
+  flex:1;text-align:center;padding:10px 0;
+  border-radius:999px;font-size:.86rem;font-weight:700;
+  color:var(--gray-500);cursor:pointer;transition:all .15s;
+  border:none;background:none;
+}
+.riwayat-tab.active{background:var(--white);color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+
+/* Riwayat list panes */
+.riwayat-pane{display:none}
+.riwayat-pane.active{display:block}
+
+/* Report card with colored accent left border */
+.riwayat-card{
+  background:var(--white);border:1px solid var(--gray-200);
+  border-left:4px solid var(--gray-300);
+  border-radius:14px;padding:18px;margin-bottom:16px;
+  cursor:pointer;transition:box-shadow .15s,transform .15s;
+}
+.riwayat-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
+.riwayat-card.accent-amber{border-left-color:var(--amber)}
+.riwayat-card.accent-blue{border-left-color:#3B82F6}
+.riwayat-card.accent-green{border-left-color:var(--teal)}
+
+.riwayat-card-top{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:10px;
+}
+.riwayat-status{
+  font-size:.72rem;font-weight:700;padding:5px 12px;
+  border-radius:999px;
+}
+.riwayat-status.st-diproses{background:var(--amber-bg);color:var(--amber-text)}
+.riwayat-status.st-diterima{background:var(--blue-bg);color:var(--blue-text)}
+.riwayat-status.st-selesai{background:var(--green-bg);color:var(--green-text)}
+.riwayat-date{font-size:.76rem;color:var(--gray-400);font-weight:600}
+
+.riwayat-card-title{
+  font-size:1.05rem;font-weight:800;color:var(--gray-800);
+  line-height:1.35;margin-bottom:8px;letter-spacing:-.2px;
+}
+.riwayat-card-desc{
+  font-size:.85rem;color:var(--gray-500);line-height:1.6;margin-bottom:12px;
+}
+.riwayat-card-cat{
+  display:flex;align-items:center;gap:6px;
+  font-size:.78rem;color:var(--gray-400);font-weight:600;margin-bottom:18px;
+}
+.riwayat-card-cat svg{width:15px;height:15px}
+
+/* Mini progress stepper */
+.riwayat-steps{
+  display:flex;align-items:center;
+}
+.riwayat-step{
+  display:flex;flex-direction:column;align-items:center;
+  flex:1;position:relative;
+}
+.riwayat-step-dot{
+  width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--gray-200);color:var(--gray-400);
+  font-size:0;margin-bottom:6px;z-index:1;
+}
+.riwayat-step-dot svg{width:12px;height:12px}
+.riwayat-step-dot.done{background:var(--navy);color:#fff}
+.riwayat-step-dot.current{background:var(--amber);color:#fff}
+.riwayat-step-dot.current.blue{background:#3B82F6}
+.riwayat-step-label{
+  font-size:.72rem;font-weight:700;color:var(--gray-400);
+}
+.riwayat-step-label.done,.riwayat-step-label.current{color:var(--gray-800)}
+.riwayat-step-label.current.amber{color:var(--amber-text)}
+.riwayat-step-line{
+  position:absolute;top:11px;left:50%;right:-50%;height:2px;
+  background:var(--gray-200);z-index:0;width:100%;
+}
+.riwayat-step-line.done{background:var(--navy)}
+.riwayat-step:last-child .riwayat-step-line{display:none}
+
+/* Bottom stat cards */
+.riwayat-stats{display:flex;gap:14px;margin-top:8px}
+.riwayat-stat{
+  flex:1;border-radius:14px;padding:18px;
+}
+.riwayat-stat.aktif{background:var(--navy);color:#fff}
+.riwayat-stat.selesai{background:var(--green-bg);color:var(--teal-text)}
+.riwayat-stat-icon{margin-bottom:10px}
+.riwayat-stat-icon svg{width:22px;height:22px}
+.riwayat-stat-num{font-size:1.7rem;font-weight:900;line-height:1;margin-bottom:4px}
+.riwayat-stat-lbl{font-size:.8rem;font-weight:600;opacity:.85}
+
+/* New riwayat card highlight */
+.riwayat-card.new-riwayat{
+  background:#F8FAFF;
+  animation:riwayatPop .4s ease;
+}
+@keyframes riwayatPop{
+  from{opacity:0;transform:translateY(-8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — Tablet, Mobile
+   ════════════════════════════════════════════ */
+
+/* ── Bottom nav bar (mobile only) ── */
+.bottom-nav{
+  display:none;
+}
+
+@media (max-width:1024px){
+
+  /* Allow vertical scrolling on smaller screens */
+  html,body{overflow-y:auto;overflow-x:hidden}
+  .shell{height:auto;min-height:100vh;width:100%}
+  .page{height:auto;width:100%;min-height:100vh}
+  .page.active{display:block}
+
+  /* Topbar: shrink padding, keep search but smaller */
+  .topbar{padding:0 16px;gap:12px}
+  .tb-brand{min-width:auto}
+  .tb-search{max-width:none}
+
+  /* 3-column beranda layout → stack */
+  .content{flex-direction:column;overflow:visible}
+  .sidebar{
+    width:100%;border-right:none;border-bottom:1px solid var(--gray-200);
+    overflow:visible;
+  }
+  .map-area{height:60vh;flex:none}
+  .right-panel{width:100%;border-left:none;border-top:1px solid var(--gray-200)}
+  .rp-scroll{overflow:visible}
+
+  /* Buat Laporan / Notifikasi / Profil / Riwayat layouts */
+  .body{flex-direction:column;overflow:visible}
+  .main{overflow:visible;padding:20px 0}
+  .right-aside{
+    width:100%;border-left:none;border-top:1px solid var(--gray-200);
+  }
+}
+
+@media (max-width:768px){
+
+  /* ── Hide desktop nav, show bottom nav ── */
+  .sidenav{display:none}
+  .bottom-nav{
+    display:flex;
+    position:fixed;bottom:0;left:0;right:0;z-index:200;
+    background:var(--white);border-top:1px solid var(--gray-200);
+    box-shadow:0 -2px 12px rgba(0,0,0,.05);
+    padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  }
+  .bnav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:var(--gray-400);font-size:.68rem;font-weight:600;
+    cursor:pointer;border:none;background:none;position:relative;
+  }
+  .bnav-item svg{width:21px;height:21px}
+  .bnav-item.active{color:var(--navy)}
+  .bnav-dot{
+    position:absolute;top:-2px;right:calc(50% - 16px);
+    width:7px;height:7px;border-radius:50%;
+    background:var(--rose);border:2px solid var(--white);
+  }
+  .page{padding-bottom:64px}
+
+  /* Hide sidebar's nav-list on beranda (covered by bottom nav) */
+  .sidebar .nav-section-label,
+  .sidebar .nav-list,
+  .sidebar .sidebar-sep{display:none}
+  .sidebar{padding-top:14px}
+
+  /* Topbar tweaks */
+  .tb-brand strong{font-size:1.05rem}
+  .tb-search{display:none}
+  .topbar{padding:0 14px;gap:10px}
+
+  /* Map shorter on phones */
+  .map-area{height:46vh}
+  .map-chips{flex-wrap:wrap;top:12px;right:12px}
+  .map-legend{padding:10px 12px;left:12px;bottom:12px}
+  .map-controls{right:12px;bottom:12px}
+
+  /* Status card + lapor button full width */
+  .status-card,.lapor-btn{margin:0 14px 14px}
+  .status-card{margin-top:14px}
+
+  /* Right panel cards */
+  .right-panel{background:var(--white)}
+  .rp-header,.rp-tabs{padding-left:14px;padding-right:14px}
+  .rp-scroll{padding:14px}
+
+  /* Form / wrap containers */
+  .form-wrap,.notif-wrap,.profil-wrap,.riwayat-wrap{
+    max-width:100%;padding:0 16px;
+  }
+  .main{padding:18px 0}
+
+  /* Kategori pills wrap nicely */
+  .kategori-grid{gap:8px}
+  .kat-pill{padding:9px 14px;font-size:.8rem}
+
+  /* Step aside becomes a horizontal-ish stacked summary */
+  .right-aside{padding:18px 16px}
+  .step-item{margin-bottom:16px}
+
+  /* Profil stats stack on very narrow screens but stay 2-col by default */
+  .profil-stats,.riwayat-stats{gap:10px}
+  .profil-stat-card,.riwayat-stat{padding:14px}
+  .profil-stat-value{font-size:1.4rem}
+  .riwayat-stat-num{font-size:1.4rem}
+
+  /* Notification / riwayat cards */
+  .notif-card,.riwayat-card,.profil-card{padding:14px}
+  .riwayat-card-title{font-size:1rem}
+
+  /* Topbar avatar/info smaller */
+  .tb-avatar,.tb-icon,.tb-info{width:32px;height:32px}
+}
+
+@media (max-width:480px){
+  .tb-brand strong{display:none}
+  .status-grid{gap:6px}
+  .stat-num{font-size:1.25rem}
+  .profil-stats,.riwayat-stats{flex-direction:column}
+  .map-chip{font-size:.74rem;padding:6px 12px}
+  .kategori-grid{flex-direction:column;align-items:stretch}
+  .kat-pill{justify-content:center}
+}

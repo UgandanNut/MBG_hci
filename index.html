@@ -46,7 +46,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           Beranda
         </a></li>
-        <li><a class="nav-link" href="#" onclick="navClick(event); showPage('laporan')">
+        <li><a class="nav-link" href="#" onclick="navClick(event); showPage('riwayat')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Laporan
           <span class="count">24</span>
@@ -68,22 +68,22 @@
       <div class="status-card">
         <div class="status-card-header">
           <h3>Status Laporan<br>Anda</h3>
-          <a href="#" class="status-lihat">
+          <a href="#" class="status-lihat" onclick="showPage('riwayat')">
             Lihat Semua
             <svg viewBox="0 0 24 24" width="13" height="13" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           </a>
         </div>
         <div class="status-grid">
           <div class="stat-box">
-            <div class="stat-num">1</div>
+            <div class="stat-num" id="statDiproses">1</div>
             <div class="stat-lbl">Diproses</div>
           </div>
           <div class="stat-box">
-            <div class="stat-num">0</div>
+            <div class="stat-num" id="statBaru">0</div>
             <div class="stat-lbl">Baru</div>
           </div>
           <div class="stat-box selesai">
-            <div class="stat-num">12</div>
+            <div class="stat-num" id="statSelesai">12</div>
             <div class="stat-lbl">Selesai</div>
           </div>
         </div>
@@ -266,6 +266,202 @@
 </div><!-- /shell -->
 </div>
 
+<div id="page-riwayat" class="page">
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="tb-back" onclick="showPage('beranda')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      MbG
+    </button>
+    <span class="tb-title" style="margin-left:12px">Riwayat Laporan</span>
+    <div class="tb-right-extra">
+      <button class="tb-info" onclick="showToast('Pencarian riwayat...')">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21" stroke-linecap="round"/></svg>
+      </button>
+      <div class="tb-avatar">AR</div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- LEFT ICON NAV -->
+    <nav class="sidenav">
+      <div class="snav-item" title="Beranda" onclick="showPage('beranda')" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </div>
+      <div class="snav-item active" title="Laporan" onclick="showPage('riwayat')" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="snav-item" title="Notifikasi" style="position:relative;cursor:pointer" onclick="showPage('notifikasi')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="snav-dot"></span>
+      </div>
+      <div class="snav-item" title="Profil" style="cursor:pointer" onclick="showPage('profil')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="riwayat-wrap">
+
+        <div class="riwayat-title">Riwayat Laporan</div>
+
+        <!-- Tab switcher -->
+        <div class="riwayat-tabs">
+          <button class="riwayat-tab active" onclick="riwayatTab('aktif', this)">Aktif</button>
+          <button class="riwayat-tab" onclick="riwayatTab('selesai', this)">Selesai</button>
+        </div>
+
+        <!-- AKTIF PANE -->
+        <div class="riwayat-pane active" id="riwayatAktif">
+
+          <!-- Card: Diproses -->
+          <div class="riwayat-card accent-amber" onclick="showToast('Membuka detail laporan...')">
+            <div class="riwayat-card-top">
+              <span class="riwayat-status st-diproses">Diproses</span>
+              <span class="riwayat-date">12 Okt 2023</span>
+            </div>
+            <div class="riwayat-card-title">Lubang Jalan di Jl. Thamrin</div>
+            <div class="riwayat-card-desc">Laporan mengenai lubang besar di tengah jalan yang membahayakan pengendara motor.</div>
+            <div class="riwayat-card-cat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+              Infrastruktur
+            </div>
+            <div class="riwayat-steps">
+              <div class="riwayat-step">
+                <div class="riwayat-step-line done"></div>
+                <div class="riwayat-step-dot done">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="riwayat-step-label done">Diterima</div>
+              </div>
+              <div class="riwayat-step">
+                <div class="riwayat-step-line"></div>
+                <div class="riwayat-step-dot current">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="riwayat-step-label current amber">Diproses</div>
+              </div>
+              <div class="riwayat-step">
+                <div class="riwayat-step-line"></div>
+                <div class="riwayat-step-dot"></div>
+                <div class="riwayat-step-label">Selesai</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card: Diterima -->
+          <div class="riwayat-card accent-blue" onclick="showToast('Membuka detail laporan...')">
+            <div class="riwayat-card-top">
+              <span class="riwayat-status st-diterima">Diterima</span>
+              <span class="riwayat-date">Kemarin</span>
+            </div>
+            <div class="riwayat-card-title">Lampu Jalan Mati di Kemang</div>
+            <div class="riwayat-card-desc">Penerangan jalan umum di blok B4 mati selama 3 hari berturut-turut.</div>
+            <div class="riwayat-card-cat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+              Fasilitas Publik
+            </div>
+            <div class="riwayat-steps">
+              <div class="riwayat-step">
+                <div class="riwayat-step-line"></div>
+                <div class="riwayat-step-dot current blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9 6 9-6M5 6h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg>
+                </div>
+                <div class="riwayat-step-label current">Diterima</div>
+              </div>
+              <div class="riwayat-step">
+                <div class="riwayat-step-line"></div>
+                <div class="riwayat-step-dot"></div>
+                <div class="riwayat-step-label">Diproses</div>
+              </div>
+              <div class="riwayat-step">
+                <div class="riwayat-step-line"></div>
+                <div class="riwayat-step-dot"></div>
+                <div class="riwayat-step-label">Selesai</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SELESAI PANE -->
+        <div class="riwayat-pane" id="riwayatSelesai">
+
+          <div class="riwayat-card accent-green" onclick="showToast('Membuka detail laporan...')">
+            <div class="riwayat-card-top">
+              <span class="riwayat-status st-selesai">Selesai</span>
+              <span class="riwayat-date">2 Okt 2023</span>
+            </div>
+            <div class="riwayat-card-title">Tumpukan Sampah di Tebet</div>
+            <div class="riwayat-card-desc">Sampah liar menumpuk di lahan kosong dan menimbulkan bau tidak sedap.</div>
+            <div class="riwayat-card-cat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+              Kebersihan
+            </div>
+            <div class="riwayat-steps">
+              <div class="riwayat-step">
+                <div class="riwayat-step-line done"></div>
+                <div class="riwayat-step-dot done">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="riwayat-step-label done">Diterima</div>
+              </div>
+              <div class="riwayat-step">
+                <div class="riwayat-step-line done"></div>
+                <div class="riwayat-step-dot done">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="riwayat-step-label done">Diproses</div>
+              </div>
+              <div class="riwayat-step">
+                <div class="riwayat-step-line done"></div>
+                <div class="riwayat-step-dot done">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="riwayat-step-label done">Selesai</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Stat cards -->
+        <div class="riwayat-stats">
+          <div class="riwayat-stat aktif">
+            <div class="riwayat-stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            </div>
+            <div class="riwayat-stat-num" id="riwayatStatAktif">2</div>
+            <div class="riwayat-stat-lbl">Laporan Aktif</div>
+          </div>
+          <div class="riwayat-stat selesai">
+            <div class="riwayat-stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div class="riwayat-stat-num" id="riwayatStatSelesai">15</div>
+            <div class="riwayat-stat-lbl">Laporan Selesai</div>
+          </div>
+        </div>
+
+        <!-- Entry point to create-report form -->
+        <button class="lapor-btn" style="margin:20px 0 24px;width:100%" onclick="showPage('laporan')">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
+            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+            <path d="M12 8v8M8 12h8" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          Lapor Sekarang
+        </button>
+
+      </div>
+    </main>
+  </div>
+</div>
+</div>
+
 <div id="page-laporan" class="page">
 <div class="shell">
 
@@ -291,7 +487,7 @@
       <div class="snav-item" title="Beranda" onclick="showPage('beranda')" style="cursor:pointer">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       </div>
-      <div class="snav-item active" title="Laporan">
+      <div class="snav-item active" title="Laporan" onclick="showPage('riwayat')" style="cursor:pointer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       </div>
       <div class="snav-item" title="Notifikasi" style="position:relative;cursor:pointer" onclick="showPage('notifikasi')">
@@ -506,7 +702,7 @@
       <div class="snav-item" title="Beranda" onclick="showPage('beranda')" style="cursor:pointer">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       </div>
-      <div class="snav-item" title="Laporan" onclick="showPage('laporan')" style="cursor:pointer">
+      <div class="snav-item" title="Laporan" onclick="showPage('riwayat')" style="cursor:pointer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       </div>
       <div class="snav-item active" title="Notifikasi" style="position:relative">
@@ -598,7 +794,7 @@
       <div class="snav-item" title="Beranda" onclick="showPage('beranda')" style="cursor:pointer">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       </div>
-      <div class="snav-item" title="Laporan" onclick="showPage('laporan')" style="cursor:pointer">
+      <div class="snav-item" title="Laporan" onclick="showPage('riwayat')" style="cursor:pointer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       </div>
       <div class="snav-item" title="Notifikasi" style="position:relative;cursor:pointer" onclick="showPage('notifikasi')">
