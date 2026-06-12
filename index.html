@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MbG – Aplikasi</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<div id="page-beranda" class="page active">
+<div class="shell">
+
+  <!-- ══ TOPBAR ══ -->
+  <header class="topbar">
+    <div class="tb-brand">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+      <strong>MbG</strong>
+    </div>
+
+    <div class="tb-search">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="Cari laporan, lokasi, atau kategori..."/>
+    </div>
+
+    <div class="tb-right">
+      <button class="tb-icon" onclick="showPage('notifikasi')">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-dot"></span>
+      </button>
+      <button class="tb-icon">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21" stroke-linecap="round"/></svg>
+      </button>
+      <div class="tb-avatar">AR</div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ══ LEFT SIDEBAR ══ -->
+    <aside class="sidebar">
+      <div class="nav-section-label">Menu</div>
+      <ul class="nav-list">
+        <li><a class="nav-link active" href="#" onclick="navClick(event)">
+          <!-- Home icon from photo bottom nav -->
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Beranda
+        </a></li>
+        <li><a class="nav-link" href="#" onclick="navClick(event); showPage('laporan')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Laporan
+          <span class="count">24</span>
+        </a></li>
+        <li><a class="nav-link" href="#" onclick="navClick(event); showPage('notifikasi')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Notifikasi
+          <span class="count" style="background:var(--rose)">3</span>
+        </a></li>
+        <li><a class="nav-link" href="#" onclick="navClick(event); showPage('profil')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profil
+        </a></li>
+      </ul>
+
+      <div class="sidebar-sep"></div>
+
+      <!-- Status Laporan card — same as photo -->
+      <div class="status-card">
+        <div class="status-card-header">
+          <h3>Status Laporan<br>Anda</h3>
+          <a href="#" class="status-lihat">
+            Lihat Semua
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </a>
+        </div>
+        <div class="status-grid">
+          <div class="stat-box">
+            <div class="stat-num">1</div>
+            <div class="stat-lbl">Diproses</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">0</div>
+            <div class="stat-lbl">Baru</div>
+          </div>
+          <div class="stat-box selesai">
+            <div class="stat-num">12</div>
+            <div class="stat-lbl">Selesai</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lapor Sekarang button — matches photo pill shape & dark navy -->
+      <button class="lapor-btn" onclick="showPage('laporan')">
+        <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+          <path d="M12 8v8M8 12h8" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        Lapor Sekarang
+      </button>
+    </aside>
+
+    <!-- ══ MAP CENTER ══ -->
+    <main class="map-area">
+      <div class="map-grid"></div>
+      <div class="road road-h1"></div>
+      <div class="road road-h2"></div>
+      <div class="road road-h3"></div>
+      <div class="road road-v1"></div>
+      <div class="road road-v2"></div>
+      <div class="dline dl-h1"></div>
+      <div class="dline dl-v1"></div>
+
+      <div class="map-pins">
+        <!-- Pin 1 – Diproses amber -->
+        <div class="mpin p1" onclick="showToast('Lubang Jalan – Jl. Merdeka, Menteng')">
+          <div class="pin-label"><span class="pin-dot" style="background:#F97316"></span>Diproses</div>
+          <div class="pin-stem" style="background:#F97316"></div>
+          <div class="pin-base" style="background:#F97316"></div>
+        </div>
+        <!-- Pin 2 – Baru blue -->
+        <div class="mpin p2" onclick="showToast('Tumpukan Sampah – Tebet')">
+          <div class="pin-label"><span class="pin-dot" style="background:#3B82F6"></span>Baru</div>
+          <div class="pin-stem" style="background:#3B82F6"></div>
+          <div class="pin-base" style="background:#3B82F6"></div>
+        </div>
+        <!-- Pin 3 – Selesai green -->
+        <div class="mpin p3" onclick="showToast('Lampu Padam – Palmerah')">
+          <div class="pin-label"><span class="pin-dot" style="background:#22C55E"></span>Selesai</div>
+          <div class="pin-stem" style="background:#22C55E"></div>
+          <div class="pin-base" style="background:#22C55E"></div>
+        </div>
+        <!-- Pin 4 -->
+        <div class="mpin p4" onclick="showToast('Drainase Tersumbat – Kebayoran')">
+          <div class="pin-label"><span class="pin-dot" style="background:#F97316"></span>Diproses</div>
+          <div class="pin-stem" style="background:#F97316"></div>
+          <div class="pin-base" style="background:#F97316"></div>
+        </div>
+        <!-- Pin 5 -->
+        <div class="mpin p5" onclick="showToast('Jalan Rusak – Tambora')">
+          <div class="pin-label"><span class="pin-dot" style="background:#3B82F6"></span>Baru</div>
+          <div class="pin-stem" style="background:#3B82F6"></div>
+          <div class="pin-base" style="background:#3B82F6"></div>
+        </div>
+      </div>
+
+      <!-- Stats chips -->
+      <div class="map-chips">
+        <div class="map-chip"><strong>47</strong><span style="color:var(--gray-500)">Total Laporan</span></div>
+        <div class="map-chip"><strong style="color:var(--rose)">12</strong><span style="color:var(--gray-500)">Perlu Tindakan</span></div>
+      </div>
+
+      <!-- Map controls -->
+      <div class="map-controls">
+        <button class="mc-btn" title="Zoom in">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button class="mc-btn" title="Zoom out">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button class="mc-btn" title="Lokasi saya">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+        </button>
+      </div>
+
+      <!-- Legend -->
+      <div class="map-legend">
+        <h4>Keterangan</h4>
+        <div class="leg-item"><span class="leg-dot" style="background:#F97316"></span>Sedang Diproses</div>
+        <div class="leg-item"><span class="leg-dot" style="background:#3B82F6"></span>Laporan Baru</div>
+        <div class="leg-item"><span class="leg-dot" style="background:#22C55E"></span>Selesai</div>
+      </div>
+    </main>
+
+    <!-- ══ RIGHT PANEL ══ -->
+    <aside class="right-panel">
+      <div class="rp-header">
+        <span class="rp-title">Laporan Terpopuler</span>
+        <button class="rp-filter">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          Filter
+        </button>
+      </div>
+
+      <div class="rp-tabs">
+        <div class="rp-tab active" onclick="tabClick(this)">Semua</div>
+        <div class="rp-tab" onclick="tabClick(this)">Infrastruktur</div>
+        <div class="rp-tab" onclick="tabClick(this)">Kebersihan</div>
+        <div class="rp-tab" onclick="tabClick(this)">Penerangan</div>
+      </div>
+
+      <div class="rp-scroll">
+
+        <!-- ── Card 1: Lubang Jalan ── -->
+        <div class="rcard" onclick="openReport(1)">
+          <div class="rc-img">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Lubang Jalan"/>
+            <span class="rc-sbadge sb-dp">Diproses</span>
+          </div>
+          <div class="rc-body">
+            <div class="rc-meta">
+              <span class="rc-cat cat-inf">Infrastruktur</span>
+              <span class="rc-likes liked">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z"/></svg>
+                128
+              </span>
+            </div>
+            <div class="rc-title">Lubang Jalan di Jl. Merdeka</div>
+            <div class="rc-desc">Lubang cukup dalam membahayakan pengendara motor, terutama saat...</div>
+            <div class="rc-loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              2 jam yang lalu • Menteng, Jakarta Pusat
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 2: Tumpukan Sampah ── -->
+        <div class="rcard" onclick="openReport(2)">
+          <div class="rc-img">
+            <img src="https://images.unsplash.com/photo-1604187351574-c75ca79f5807?w=600&q=80" alt="Sampah Liar"/>
+            <span class="rc-sbadge sb-baru">Baru</span>
+          </div>
+          <div class="rc-body">
+            <div class="rc-meta">
+              <span class="rc-cat cat-keb">Kebersihan</span>
+              <span class="rc-likes">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z"/></svg>
+                45
+              </span>
+            </div>
+            <div class="rc-title">Tumpukan Sampah Liar</div>
+            <div class="rc-desc">Warga membuang sampah di lahan kosong, menimbulkan bau tidak sedap</div>
+            <div class="rc-loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              5 jam yang lalu • Tebet, Jakarta Selatan
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 3: Lampu Jalan Padam ── -->
+        <div class="rcard" onclick="openReport(3)">
+          <div class="rc-img">
+            <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80" alt="Lampu Padam"/>
+            <span class="rc-sbadge sb-ok">Selesai</span>
+          </div>
+          <div class="rc-body">
+            <div class="rc-meta">
+              <span class="rc-cat cat-pen">Penerangan</span>
+              <span class="rc-likes liked">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z"/></svg>
+                89
+              </span>
+            </div>
+            <div class="rc-title">Lampu Jalan Padam</div>
+            <div class="rc-desc">Lampu PJU padam di 3 titik berturut-turut, membuat jalanan gelap dan...</div>
+            <div class="rc-loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              1 hari yang lalu • Palmerah, Jakarta Barat
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+  </div><!-- /content -->
+</div><!-- /shell -->
+</div>
+
+<div id="page-laporan" class="page">
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="tb-back" onclick="showPage('beranda')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      MbG
+    </button>
+    <span class="tb-title" style="margin-left:12px">Buat Laporan</span>
+    <div class="tb-right-extra">
+      <button class="tb-info">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8" stroke-linecap="round"/><line x1="12" y1="12" x2="12" y2="16" stroke-linecap="round"/></svg>
+      </button>
+      <div class="tb-avatar">AR</div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- LEFT ICON NAV -->
+    <nav class="sidenav">
+      <div class="snav-item" title="Beranda" onclick="showPage('beranda')" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </div>
+      <div class="snav-item active" title="Laporan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="snav-item" title="Notifikasi" style="position:relative;cursor:pointer" onclick="showPage('notifikasi')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="snav-dot"></span>
+      </div>
+      <div class="snav-item" title="Profil" style="cursor:pointer" onclick="showPage('profil')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+    </nav>
+
+    <!-- MAIN FORM -->
+    <main class="main">
+      <div class="form-wrap">
+
+        <!-- Bukti Laporan -->
+        <div class="sec-label">Bukti Laporan</div>
+        <div class="upload-box" onclick="triggerUpload()" id="uploadBox">
+          <input type="file" id="fileInput" accept="image/*,video/*" multiple onchange="handleFiles(this)"/>
+          <div class="upload-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+          <div class="upload-main-text">Ketuk untuk unggah foto atau video</div>
+          <div class="upload-sub-text">Maksimal file 10MB</div>
+        </div>
+
+        <!-- Deskripsi -->
+        <div class="field-block">
+          <div class="sec-label">Apa yang ingin Anda laporkan?</div>
+          <textarea
+            class="field-textarea"
+            id="deskripsi"
+            placeholder="Berikan detail kejadian, waktu, dan kronologi singkat..."
+            maxlength="500"
+            oninput="updateCount(this)"
+          ></textarea>
+          <div class="char-count"><span id="charCount">0</span>/500</div>
+        </div>
+
+        <!-- Pilih Kategori -->
+        <div class="field-block">
+          <div class="sec-label">Pilih Kategori</div>
+          <div class="kategori-grid">
+            <button class="kat-pill" onclick="selectKat(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Infrastruktur
+            </button>
+            <button class="kat-pill" onclick="selectKat(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+              Kebersihan
+            </button>
+            <button class="kat-pill" onclick="selectKat(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Keamanan
+            </button>
+            <button class="kat-pill" onclick="selectKat(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              Pelayanan Publik
+            </button>
+          </div>
+        </div>
+
+        <!-- Lokasi Kejadian -->
+        <div class="field-block">
+          <div class="lokasi-header">
+            <div class="sec-label" style="margin-bottom:0">Lokasi Kejadian</div>
+            <button class="gunakan-lokasi" onclick="useCurrentLocation()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+              Gunakan Lokasi Saat Ini
+            </button>
+          </div>
+
+          <div class="map-box">
+            <div class="map-bg"></div>
+            <div class="map-grid-lines"></div>
+            <div class="map-circles"></div>
+
+            <!-- Zoom -->
+            <div class="map-zoom">
+              <button class="mz-btn">+</button>
+              <button class="mz-btn">−</button>
+            </div>
+            <!-- Resize handle -->
+            <div class="map-handle">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#999" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+
+            <!-- Location card -->
+            <div class="loc-card" onclick="showToast('Ganti lokasi pin...')">
+              <span class="loc-pin-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+              </span>
+              <div>
+                <div class="loc-name" id="locName">Jl. Sudirman No. 45, Jakarta Pusat</div>
+                <div class="loc-hint">Ketuk untuk ubah pin</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anonim toggle -->
+        <div class="anonim-card">
+          <div class="anonim-eye">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </div>
+          <div class="anonim-text">
+            <div class="anonim-title">MbG sebagai Anonim</div>
+            <div class="anonim-desc">Identitas Anda tidak akan<br>dipublikasikan.</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="anonimToggle" onchange="toggleAnonim(this)"/>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+
+        <!-- Kirim -->
+        <button class="kirim-btn" onclick="kirimLaporan()">
+          Kirim Laporan
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+
+        <div class="terms-text">
+          Dengan mengirimkan laporan, Anda menyetujui <a onclick="showToast('Membuka Syarat & Ketentuan...')">Syarat &amp; Ketentuan</a> yang berlaku.
+        </div>
+
+      </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR — step progress -->
+    <aside class="right-aside">
+      <div class="steps-title">Langkah Pengisian</div>
+
+      <div class="step-item">
+        <div class="step-icon-col">
+          <div class="step-circle active">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-text">
+          <div class="step-name active">Bukti Laporan</div>
+          <div class="step-desc">Unggah foto atau video kejadian</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-icon-col">
+          <div class="step-circle pending">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-text">
+          <div class="step-name">Deskripsi</div>
+          <div class="step-desc">Jelaskan detail kejadian</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-icon-col">
+          <div class="step-circle pending">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-text">
+          <div class="step-name">Kategori</div>
+          <div class="step-desc">Pilih jenis laporan</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-icon-col">
+          <div class="step-circle pending">4</div>
+        </div>
+        <div class="step-text">
+          <div class="step-name">Lokasi & Kirim</div>
+          <div class="step-desc">Tandai lokasi kejadian</div>
+        </div>
+      </div>
+
+      <div class="aside-tip">
+        <div class="aside-tip-title">💡 Tips Laporan Baik</div>
+        <div class="aside-tip-body">Sertakan foto yang jelas, lokasi tepat, dan deskripsi singkat agar laporan Anda diproses lebih cepat.</div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+</div>
+
+<div id="page-notifikasi" class="page">
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="tb-back" onclick="showPage('beranda')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      MbG
+    </button>
+    <span class="tb-title" style="margin-left:12px">Notifikasi</span>
+    <div class="tb-right-extra">
+      <button class="tb-info">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21" stroke-linecap="round"/></svg>
+      </button>
+      <div class="tb-avatar">AR</div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- LEFT ICON NAV -->
+    <nav class="sidenav">
+      <div class="snav-item" title="Beranda" onclick="showPage('beranda')" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </div>
+      <div class="snav-item" title="Laporan" onclick="showPage('laporan')" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="snav-item active" title="Notifikasi" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <div class="snav-item" title="Profil" style="cursor:pointer" onclick="showPage('profil')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="notif-wrap" id="notifWrap">
+
+        <div class="notif-section-label" id="notifLabelBaru">Terbaru</div>
+        <div id="notifListBaru">
+          <!-- Dynamic "laporan terkirim" notifications get inserted here -->
+
+          <div class="notif-card" onclick="showToast('Membuka laporan Lubang Jalan')">
+            <div class="notif-icon ic-success">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-text">Laporan Anda <b>'Lubang Jalan di Jl. Thamrin'</b> telah selesai diperbaiki. Terima kasih atas partisipasi Anda!</div>
+              <div class="notif-time">2 jam yang lalu</div>
+            </div>
+            <span class="notif-unread-dot"></span>
+          </div>
+
+          <div class="notif-card" onclick="showToast('Membuka laporan Lampu Jalan Mati')">
+            <div class="notif-icon ic-info">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-text">Petugas sedang menuju lokasi laporan <b>'Lampu Jalan Mati'</b> Anda.</div>
+              <div class="notif-time">5 jam yang lalu</div>
+            </div>
+            <span class="notif-unread-dot"></span>
+          </div>
+        </div>
+
+        <div class="notif-section-label">Minggu Ini</div>
+        <div id="notifListMinggu">
+          <div class="notif-card" onclick="showToast('Membuka laporan Tumpukan Sampah')">
+            <div class="notif-icon ic-like">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-text">Laporan <b>'Tumpukan Sampah'</b> di sekitar Anda baru saja mendapat <span class="hl">10 dukungan baru.</span></div>
+              <div class="notif-time">Kemarin</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="notif-section-label">Lebih Awal</div>
+        <div class="notif-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+          <div>Tidak ada notifikasi lama lainnya.</div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+</div>
+
+<div id="page-profil" class="page">
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="tb-back" onclick="showPage('beranda')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      MbG
+    </button>
+    <span class="tb-title" style="margin-left:12px">Profil</span>
+    <div class="tb-right-extra">
+      <button class="tb-info">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21" stroke-linecap="round"/></svg>
+      </button>
+      <div class="tb-avatar">AR</div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- LEFT ICON NAV -->
+    <nav class="sidenav">
+      <div class="snav-item" title="Beranda" onclick="showPage('beranda')" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </div>
+      <div class="snav-item" title="Laporan" onclick="showPage('laporan')" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="snav-item" title="Notifikasi" style="position:relative;cursor:pointer" onclick="showPage('notifikasi')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <div class="snav-item active" title="Profil">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="profil-wrap">
+
+        <!-- Profile card -->
+        <div class="profil-card">
+          <div class="profil-avatar-wrap">
+            <img class="profil-avatar" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=200&q=80" alt="Budi Santoso"/>
+            <div class="profil-verif-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div class="profil-name">Budi Santoso</div>
+          <div class="profil-id">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            273 * * * * * * *
+          </div>
+          <div class="profil-badge">Warga Terverifikasi</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="profil-stats">
+          <div class="profil-stat-card">
+            <div class="profil-stat-label">Total Laporan</div>
+            <div class="profil-stat-value navy">17 <span>Laporan</span></div>
+            <div class="profil-stat-bar navy"><i></i></div>
+          </div>
+          <div class="profil-stat-card">
+            <div class="profil-stat-label">Poin Kontribusi</div>
+            <div class="profil-stat-value amber">850 <span>Poin</span></div>
+            <div class="profil-stat-bar amber"><i></i></div>
+          </div>
+        </div>
+
+        <!-- Pengaturan Akun -->
+        <div class="notif-section-label" style="margin-top:0">Pengaturan Akun</div>
+        <div class="profil-list">
+          <div class="profil-item" onclick="showToast('Membuka Informasi Pribadi...')">
+            <div class="profil-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="profil-item-label">Informasi Pribadi</div>
+            <svg class="profil-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="profil-item" onclick="showToast('Membuka Pengaturan Notifikasi...')">
+            <div class="profil-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </div>
+            <div class="profil-item-label">Pengaturan Notifikasi</div>
+            <svg class="profil-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="profil-item" onclick="showToast('Membuka Keamanan Akun...')">
+            <div class="profil-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="profil-item-label">Keamanan Akun</div>
+            <svg class="profil-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- Dukungan -->
+        <div class="notif-section-label">Dukungan</div>
+        <div class="profil-list">
+          <div class="profil-item" onclick="showToast('Membuka Pusat Bantuan...')">
+            <div class="profil-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 1 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="profil-item-label">Pusat Bantuan</div>
+            <svg class="profil-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="profil-item" onclick="showToast('Anda telah keluar')">
+            <div class="profil-item-icon danger">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </div>
+            <div class="profil-item-label danger">Keluar</div>
+          </div>
+        </div>
+
+        <div class="profil-footer">
+          Versi Aplikasi 2.4.1 (Stable)<br>
+          © 2024 Lapor! Indonesia
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
